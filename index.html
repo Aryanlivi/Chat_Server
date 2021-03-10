@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>CHAT ROOM</title>
+</head>
+<body>
+    <div>
+        <textarea id='textarea'></textarea>
+    
+    </div>
+    
+    <input type="text" id="input">
+    <button id="submit" onclick="Sendtext()">Submit</button>
+    <script src="http://192.168.1.84:3000/socket.io/socket.io.js"></script>
+        
+    <script>
+        let socket = io.connect("http://192.168.1.84:3000");
+        socket.on('message',(mess)=>{
+            const textArea=document.getElementById('textarea');
+            textArea.append(mess+"\n");
+        });
+        function Sendtext(){
+            const textField=document.getElementById("input");
+            let recieved_text=textField.value;
+            socket.emit('message', recieved_text);
+            textField.value='';
+        }
+    </script>
+</body>
+</html>
